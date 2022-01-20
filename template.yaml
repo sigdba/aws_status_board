@@ -2,6 +2,19 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: ELB & ECS Status Board
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: aws-status-board
+    Description: A simple status board for ECS
+    Author: Dan Boitnott
+    SpdxLicenseId: GPL-3.0-or-later
+    LicenseUrl: LICENSE.txt
+    ReadmeUrl: README.md
+    Labels: ['tests']
+    HomePageUrl: https://github.com/sigdba/aws_status_board
+    SemanticVersion: 0.1.0
+    SourceCodeUrl: https://github.com/sigdba/aws_status_board
+
 Parameters:
   SiteName:
     Type: String

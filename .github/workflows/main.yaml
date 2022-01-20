@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install AWS SAM
+        run: |
+          export AWS_SAM_VER=1.36.0
+          export AWS_SAM_SUM="48866227639fb8eda1b4f5445fe7f7e99f006a7a908cc1744dd21dc0e6442a3e"
+          wget -O /sam.zip "https://github.com/aws/aws-sam-cli/releases/download/v${AWS_SAM_VER}/aws-sam-cli-linux-x86_64.zip"
+          echo "$AWS_SAM_SUM  /sam.zip" | sha256sum -c -
+          unzip /sam.zip -d /sam-install
+          /sam-install/install
+          sam --version

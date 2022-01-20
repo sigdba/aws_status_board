@@ -1,0 +1,39 @@
+body {
+    background-color: #202020;
+    color: white;
+    font-family: sans-serif;
+}
+
+.status_group {
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 0;
+    margin: 10px;
+    background-color: #202040;
+}
+
+.status_group_title {
+    border-radius: 25px 25px 0 0;
+    padding: 5px 0 5px 25px;
+    background-color: #202080;
+}
+
+.status_lights {
+    padding: 10px;
+    line-height: 10pt;
+}
+
+a.small_status {
+    font-size: 70pt;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+.status_color_STEADY_STATE {
+    color: green;
+}
+
+.status_color_STABILIZING {
+    color: red;
+}

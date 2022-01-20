@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: ELB & ECS Status Board
+
+Parameters:
+  SiteName:
+    Type: String
+
+  ApiQuotaLimit:
+    Type: Number
+    Description: Maximum number of API invocations per month
+    Default: 1000000
+
+  ApiBurstLimit:
+    Type: Number
+    Default: 3
+
+  ApiRateLimit:
+    Type: Number
+    Default: 1
+
+Globals:
+  Function:
+    Timeout: 60
+
+Resources:
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      EndpointConfiguration: REGIONAL
+      Auth:
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Quota:
+            Limit: !Ref ApiQuotaLimit
+            Period: MONTH
+          Throttle:
+            BurstLimit: !Ref ApiBurstLimit
+            RateLimit: !Ref ApiRateLimit
+
+
+      # Domain:
+      #   CertificateArn: !Ref ApiCertificate
+      #   DomainName: !Sub "${ApiDomainPrefix}${WebDomain}"
+      #   Route53:
+      #     HostedZoneId: !Ref HostedZoneId
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: status_board/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          SB_PAGE_TITLE: !Sub "${SiteName}/${AWS::Region} - ECS Status"
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action:
+                - ecs:ListServices
+                - ecs:DescribeServices
+                - ecs:ListClusters
+                - elasticloadbalancing:DescribeLoadBalancers
+                - elasticloadbalancing:DescribeListeners
+                - elasticloadbalancing:DescribeTargetHealth
+                - elasticloadbalancing:DescribeTargetGroups
+              Resource: "*"
+      Events:
+        Status:
+          Type: Api
+          Properties:
+            Path: /status
+            Method: get
+            RestApiId: !Ref Api
+
+Outputs:
+  ApiEndPoint:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/prod/status/"

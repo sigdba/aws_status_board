@@ -12,7 +12,7 @@ Metadata:
     ReadmeUrl: README.md
     Labels: ['tests']
     HomePageUrl: https://github.com/sigdba/aws_status_board
-    SemanticVersion: "0.2"
+    SemanticVersion: 0.2.0
     SourceCodeUrl: https://github.com/sigdba/aws_status_board
 
 Parameters:

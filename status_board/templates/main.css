@@ -28,16 +28,21 @@ a.small_status {
     margin: 2px;
     text-decoration: none;
     text-align: center;
-    color: white;
     border-radius: 5px;
     display: inline-block;
 }
 
 .status_color_STEADY_STATE {
+    color: white;
     background-color: green;
 }
 
 .status_color_STABILIZING {
-    background-color: red;
+    color: black;
+    background-color: yellow;
 }
 
+.status_color_UNSTABLE {
+    color: white;
+    background-color: red;
+}

@@ -43,31 +43,39 @@ def service_health_status(svc):
         task_set_status = {t["stabilityStatus"] for t in svc["taskSets"]}
         if len(task_set_status) > 0 and task_set_status != {"STEADY_STATE"}:
             return {
-                "stability_status": "STABILIZING",
+                "stability_status": "UNSTABLE",
                 "stability_reason": "task_set_stability",
             }
     if svc["desiredCount"] != svc["runningCount"]:
-        return {"stability_status": "STABILIZING", "stability_reason": "count_mismatch"}
+        return {"stability_status": "UNSTABLE", "stability_reason": "count_mismatch"}
     if svc["pendingCount"] != 0:
-        return {"stability_status": "STABILIZING", "stability_reason": "pending_tasks"}
+        return {"stability_status": "UNSTABLE", "stability_reason": "pending_tasks"}
     if svc["desiredCount"] > 0:
         if "deployments" in svc:
             deployment_states = {d["rolloutState"] for d in svc["deployments"]}
             if len(deployment_states) > 0 and deployment_states != {"COMPLETED"}:
                 return {
-                    "stability_status": "STABILIZING",
+                    "stability_status": "UNSTABLE",
                     "stability_reason": "deployment_states",
                 }
         if "loadBalancers" in svc:
             tg_arns = list({l["targetGroupArn"] for l in svc["loadBalancers"]})
             if len(tg_arns) > 0:
-                tg_stability = {
-                    elb.target_group_health_summary(arn)["is_stable"] for arn in tg_arns
-                }
+                tg_health = tg_stability = [
+                    elb.target_group_health_summary(arn) for arn in tg_arns
+                ]
+                tg_stability = {h["is_stable"] for h in tg_health}
                 if tg_stability != {True}:
+                    tg_is_healthy = {h["is_healthy"] for h in tg_health}
+                    if tg_is_healthy == {True}:
+                        return {
+                            "stability_status": "STABILIZING",
+                            "stability_reason": "load_balancer_stabilizing",
+                        }
+
                     return {
-                        "stability_status": "STABILIZING",
-                        "stability_reason": "load_balancer",
+                        "stability_status": "UNSTABLE",
+                        "stability_reason": "load_balancer_unhealthy",
                     }
 
                     # TODO: Service discovery health check?

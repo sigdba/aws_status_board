@@ -1,5 +1,4 @@
 import os
-
 import jinja2
 
 import ecs
@@ -11,6 +10,10 @@ def status_board_title():
     return "Status Board"
 
 
+def inline_css():
+    return "SB_INLINE_CSS" in os.environ
+
+
 def status_board():
     env = jinja2.Environment(
         loader=jinja2.PackageLoader("web"),
@@ -18,7 +21,9 @@ def status_board():
     )
     template = env.get_template("index.html")
     return template.render(
-        ecs_clusters=ecs.clusters_with_health(), page_title=status_board_title()
+        ecs_clusters=ecs.clusters_with_health(),
+        page_title=status_board_title(),
+        inline_css=inline_css(),
     )
 
 

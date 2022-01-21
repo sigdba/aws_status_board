@@ -46,3 +46,8 @@ a.small_status {
     color: white;
     background-color: red;
 }
+
+.status_color_DISABLED {
+    color: white;
+    background-color: #555;
+}

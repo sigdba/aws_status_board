@@ -50,6 +50,8 @@ def service_health_status(svc):
         return {"stability_status": "UNSTABLE", "stability_reason": "count_mismatch"}
     if svc["pendingCount"] != 0:
         return {"stability_status": "UNSTABLE", "stability_reason": "pending_tasks"}
+    if svc["desiredCount"] == 0:
+        return {"stability_status": "DISABLED", "stability_reason": "zero_desired"}
     if svc["desiredCount"] > 0:
         if "deployments" in svc:
             deployment_states = {d["rolloutState"] for d in svc["deployments"]}

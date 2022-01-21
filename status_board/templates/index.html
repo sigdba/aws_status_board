@@ -8,14 +8,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="refresh" content="60">
 
-        <!-- <link rel="stylesheet" href="main.css"> -->
-
-        <!-- Place favicon.ico in the root directory -->
-
+        {% if inline_css %}
         <style>
          {% include 'main.css' %}
         </style>
-
+        {% else %}
+        <link rel="stylesheet" href="main.css">
+        {% endif %}
     </head>
     <body>
         <!--[if lt IE 8]>

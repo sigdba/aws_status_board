@@ -10,6 +10,7 @@ body {
     padding: 0;
     margin: 10px;
     background-color: #202040;
+    display: inline-block;
 }
 
 .status_group_title {
@@ -19,21 +20,60 @@ body {
 }
 
 .status_lights {
-    padding: 10px;
-    line-height: 10pt;
+    padding: 15px 25px 5px 25px;
 }
 
 a.small_status {
-    font-size: 70pt;
-    padding: 0;
-    margin: 0;
+    padding: 5px;
+    margin: 2px;
     text-decoration: none;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
 }
 
 .status_color_STEADY_STATE {
-    color: green;
+    background-color: green;
 }
 
 .status_color_STABILIZING {
-    color: red;
+    background-color: red;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    font-size: small;
+    width: 20em;
+    top: 200%;
+    left: 50%;
+    margin-left: -10em;
+    background-color: #c0c0c0;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #c0c0c0 transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

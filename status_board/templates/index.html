@@ -8,14 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="refresh" content="60">
 
-        <!-- <link rel="stylesheet" href="main.css"> -->
+        <link rel="stylesheet" href="main.css">
 
         <!-- Place favicon.ico in the root directory -->
 
-        <style>
-        {% include 'main.css' %}
-        </style>
-
+        <!-- <style>
+             {% include 'main.css' %}
+             </style>
+        -->
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -33,9 +33,18 @@
                 <div class="status_group_title">{{ cluster.cluster_name }}</div>
                 <div class="status_lights">
                 {% for svc in cluster.services %}
+                    <div class="tooltip">
                     <a class="small_status status_color_{{ svc.stability_status }}"
                     target="_blank"
-                    href="https://{{ svc.region }}.console.aws.amazon.com/ecs/home?region={{ svc.region }}#/clusters/{{ svc.cluster_name }}/services/{{ svc.serviceName }}/events">&bull;</a>
+                       href="https://{{ svc.region }}.console.aws.amazon.com/ecs/home?region={{ svc.region }}#/clusters/{{ svc.cluster_name }}/services/{{ svc.serviceName }}/events">
+                        {%- if svc.desiredCount == svc.runningCount -%}
+                        {{ svc.desiredCount }}
+                        {%- else -%}
+                        {{ svc.runningCount }}/{{ svc.desiredCount }}
+                        {%- endif -%}
+                    </a>
+                    <span class="tooltiptext">{{ svc.serviceName }} {{ svc.stability_reason }}</span>
+                    </div>
                 {% endfor %}
                 </div>
             </div>

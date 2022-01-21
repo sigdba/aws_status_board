@@ -1,3 +1,4 @@
 .aws-sam
 __pycache__
 .docker-dev-zsh_history
+.DS_Store

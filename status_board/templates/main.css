@@ -30,6 +30,7 @@ a.small_status {
     text-align: center;
     color: white;
     border-radius: 5px;
+    display: inline-block;
 }
 
 .status_color_STEADY_STATE {

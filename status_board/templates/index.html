@@ -33,9 +33,9 @@
                 <div class="status_group_title">{{ cluster.cluster_name }}</div>
                 <div class="status_lights">
                 {% for svc in cluster.services %}
-                    <div class="tooltip">
                     <a class="small_status status_color_{{ svc.stability_status }}"
-                    target="_blank"
+                       target="_blank"
+                       title="{{ svc.serviceName }}{% if svc.stability_reason %}({{ svc.stability_reason }}){% endif %}"
                        href="https://{{ svc.region }}.console.aws.amazon.com/ecs/home?region={{ svc.region }}#/clusters/{{ svc.cluster_name }}/services/{{ svc.serviceName }}/events">
                         {%- if svc.desiredCount == svc.runningCount -%}
                         {{ svc.desiredCount }}
@@ -43,9 +43,7 @@
                         {{ svc.runningCount }}/{{ svc.desiredCount }}
                         {%- endif -%}
                     </a>
-                    <span class="tooltiptext">{{ svc.serviceName }} {{ svc.stability_reason }}</span>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
             {% endif %}

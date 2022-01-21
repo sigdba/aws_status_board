@@ -10,6 +10,7 @@ body {
     padding: 0;
     margin: 10px;
     background-color: #202040;
+    display: inline-block;
 }
 
 .status_group_title {
@@ -19,21 +20,29 @@ body {
 }
 
 .status_lights {
-    padding: 10px;
-    line-height: 10pt;
+    padding: 15px 25px 15px 25px;
 }
 
 a.small_status {
-    font-size: 70pt;
-    padding: 0;
-    margin: 0;
+    padding: 5px;
+    margin: 2px;
     text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
 }
 
 .status_color_STEADY_STATE {
-    color: green;
+    color: white;
+    background-color: green;
 }
 
 .status_color_STABILIZING {
-    color: red;
+    color: black;
+    background-color: yellow;
+}
+
+.status_color_UNSTABLE {
+    color: white;
+    background-color: red;
 }

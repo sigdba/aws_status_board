@@ -20,7 +20,7 @@ SCRIPT_DIR="$(cd "$SCRIPT_DIR"; pwd -P)"
 
 # Check if a rebuild is needed
 if which md5sum >/dev/null; then
-  TAG=$(cat Dockerfile requirements.txt scripts/docker_* |md5sum |cut -d ' ' -f 1)
+  TAG=$(cat Dockerfile status_board/requirements.txt scripts/docker_* |md5sum |cut -d ' ' -f 1)
 else
   echo "WARNING: md5sum command not found. You may need to manually rebuild with -b"
   TAG=latest
